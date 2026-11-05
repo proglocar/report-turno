@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Informativo de Turno</title><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<title>Informativo de Turno</title><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -108,14 +108,15 @@ body.ptm .nopt,body.ptm .ninf,body:not(.ptm) .npt{display:none!important}
 <div class="sub" id="sub"></div>
 <div class="tb"><button id="nrp">🆕 Novo report</button><button id="undo" disabled>↩ Desfazer</button><button id="rst">⟲ Restaurar modelo inicial</button></div>
 <div id="pgInf"><div class="card"><h2>Título</h2><div class="chips" id="tchips"></div></div>
-<div class="card"><h2>Programação do dia (PDF)</h2><input type="file" id="pdff" accept="application/pdf,.pdf"><button type="button" id="pdfx" class="add" style="display:none;margin-top:8px">✕ Remover PDF</button><div id="pdfm" style="font-size:12px;color:var(--mu);margin-top:6px">Opcional: carregue o PDF para preencher frota, local, OS/OM e operador das TAGs habituais e o quadro EVENTUAL.</div><label class="na" style="margin-top:8px"><input type="checkbox" id="shos"> EXIBIR OS/OM NA IMAGEM</label></div>
-<div class="card"><h2>Contratos</h2><div class="chips" id="chips"></div><div style="font-size:12px;color:var(--mu);margin-top:6px">Toque para incluir ou retirar. Em cada contrato use ▾ para minimizar.</div></div>
-<div class="card"><h2>Colunas visíveis</h2><label class="na"><input type="checkbox" id="shl"> LOCALIZAÇÃO</label><label class="na"><input type="checkbox" id="sho"> OPERADOR</label></div>
+<div class="card"><h2>Programação do dia (PDF)</h2><input type="file" id="pdff" accept="application/pdf,.pdf"><button type="button" id="pdfx" class="add" style="display:none;margin-top:8px">✕ Remover PDF</button><div id="pdfm" style="font-size:12px;color:var(--mu);margin-top:6px">Opcional: carregue o PDF para preencher frota, local, OS/OM e operador das TAGs habituais e o quadro EVENTUAL.</div></div>
+<div class="card"><h2>Colunas visíveis</h2><label class="na"><input type="checkbox" id="shl"> LOCALIZAÇÃO</label><label class="na"><input type="checkbox" id="sho"> OPERADOR</label><label class="na"><input type="checkbox" id="shos"> OM/OS</label></div>
+<div class="card" id="ctrc"><h2>Contratos</h2><div class="chips" id="chips"></div><div style="font-size:12px;color:var(--mu);margin-top:6px">Toque para incluir ou retirar. Em cada contrato use ▾ para minimizar.</div></div>
 <div id="hdrh"></div><div class="card" id="hdrc"><h2 style="display:none">Cabeçalho</h2>
 <div class="g2"><div><label>Data</label><input type="date" id="data"></div><div><label>Letra</label><select id="letra"><option value="">SELECIONE</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div>
 <label class="na"><input type="checkbox" id="egc"> ENCARREGADO GERAL (apenas um encarregado)</label><label id="enc_l">Encarregado 01 · Guindaste, Caminhão, Ormig e Carreta</label><select id="enc"></select><input id="enc_x" style="display:none;margin-top:6px" placeholder="DIGITE O NOME"><div id="enc2w"><label>Encarregado 02 · Empilhadeiras</label><select id="enc2"></select><input id="enc2_x" style="display:none;margin-top:6px" placeholder="DIGITE O NOME"></div><label>Supervisor</label><select id="sup"></select><input id="sup_x" style="display:none;margin-top:6px" placeholder="DIGITE O NOME"><label>Tec Segurança</label><select id="tec"></select><input id="tec_x" style="display:none;margin-top:6px" placeholder="DIGITE O NOME"><label>Projetista</label><select id="proj"></select><input id="proj_x" style="display:none;margin-top:6px" placeholder="DIGITE O NOME"></div>
 <div id="secs"></div>
-<div id="obsh"></div><div class="card" id="obsc"><h2>Observação</h2><div id="obsq"></div><div class="obsw">⚠️ Orientação: toda pendência deve ser registrada com a descrição da atividade, localização, frota envolvida (quando aplicável), situação atual e ação necessária para dar continuidade no próximo turno.</div></div>
+<div id="obsh"></div><div class="card" id="obsc"><h2>Check-list do turno</h2><div id="obsq"></div><div class="obsw">⚠️ Orientação: toda pendência deve ser registrada com a descrição da atividade, localização, frota envolvida (quando aplicável), situação atual e ação necessária para dar continuidade no próximo turno.</div></div>
+<div id="ob2h"></div><div id="ob2"></div>
 </div>
 <div id="pgCen" style="display:none">
 <div class="card"><h2>Equipamento</h2><div class="chips" id="cEq"></div><div style="font-size:12px;color:var(--mu);margin-top:6px">Toque para filtrar. Sem seleção = todos.</div></div>
@@ -163,6 +164,8 @@ const C=[
 const isC=r=>r.eq!==undefined?r.eq==="GUINDASTE":/^(40|42)/.test((r.frota||"").trim());
 const evArea=(c,r)=>{const ars=[...new Set(c.G.map(x=>x[0]))];if(r.ar&&ars.includes(r.ar))return r.ar;const g=c.G.find(x=>ntp(x[1])===ntp(r.eq));return g?g[0]:ars[0]};
 const isPT=()=>S.titulo==="PASSAGEM DE TURNO";
+const TL=t=>t==="PASSAGEM DE TURNO"?"PASSAGEM DE TURNO PARA LOCAR":t==="INFORMATIVO DE TURNO"?"INFORMATIVO DE TURNO PARA O CLIENTE":t;
+function autoFerOp(){if(S.titulo==="PASSAGEM DE TURNO")return;const on=Object.keys(S.sel||{}).filter(k=>S.sel[k]);if(on.length===1&&on[0]==="FERROVIA")S.showOp=1}
 const impTxt=r=>isPT()&&r.imp?"IMPACTO: "+(r.ih||"--:--")+" - "+(r.ifm||"--:--")+" | "+String(r.imot||"").trim():"";
 const evOk=r=>!S.letra||/[A-Za-zÀ-ú]/.test(String(r.operador||"").replace(/SEM OPERADOR/i,""));
 const impBad=r=>isPT()&&r.imp&&!(r.ih&&r.ifm&&String(r.imot||"").trim());
@@ -175,12 +178,12 @@ function impUI(r,d){if(!isPT())return;const p=document.createElement("div");p.cl
 const defLoc=(k,tp)=>(k==="PORTO"||k==="USINA")&&/^(GUINDASTE|CAMINH)/.test(tp)?"CANTEIRO":"";
 const mk=(a,dl)=>a.map(([tag,frota,posto])=>({id:uid(),on:1,st:"op",tag,frota,posto,loc:dl,operador:"",obs:"",pat:0,des:0,mon:0,cp:""}));
 const EQE=["CAMINHÃO","CARRETA","GUINDASTE","ORMIG","EMPILHADEIRA"],PRV=["EM AVALIAÇÃO","SEM PREVISÃO","AGUARDANDO PEÇA","COM PREVISÃO"],STT=["EM AVALIAÇÃO","AGUARDANDO FISCAL","AGUARDANDO PEÇA","AGUARDANDO MANUTENÇÃO","EM ANDAMENTO","AGUARDANDO TESTE","LIBERADO","EQUIPAMENTO INOPERANTE","MANUTENÇÃO CONCLUÍDA","CANCELADA"],STO=["AGUARDANDO SELO MEV","ATRASO NA MOBILIZAÇÃO","ATRASO NA RENDIÇÃO","EQUIPAMENTO BLOQUEADO NA PORTARIA","EQUIPAMENTO INTERDITADO","FALHA NA PROGRAMAÇÃO","INDISPONIBILIDADE DE OPERADOR","OPERADOR DE ATESTADO","OPERADOR FALTOU","OPERADOR SEM LIBERAÇÃO","TROCA DE OPERADOR","OUTROS — IMPACTO OPERACIONAL"];
-let def=()=>({data:new Date().toISOString().slice(0,10),titulo:"INFORMATIVO DE TURNO",letra:"",enc:"",sup:"",tec:"",proj:"",enc2:"",obs:"",obsNA:true,obsQ:{},showLoc:0,showOp:0,showOs:0});
+let def=()=>({data:new Date().toISOString().slice(0,10),titulo:"INFORMATIVO DE TURNO",letra:"",enc:"",sup:"",tec:"",proj:"",enc2:"",obs:"",obsOp:"",obsAdm:"",obsNA:true,obsQ:{},showLoc:0,showOp:0,showOs:0});
 let S;try{S=JSON.parse(localStorage.getItem("infturno1"))}catch(e){}
 if(!S)S=def();if(!S.titulo)S.titulo="INFORMATIVO DE TURNO";if(S.letra==="E")S.letra="";
 /* Antes: estes blocos rodavam a cada abertura e apagavam o trabalho. Agora só rodam no botão "Novo report". */
 function newReportReset(){
-{const d=new Date(),p=n=>String(n).padStart(2,"0");S.data=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());["letra","enc","enc2","sup","tec","proj"].forEach(k=>S[k]="");S.eg=0;S.opInit=0;S.col={}}
+{const d=new Date(),p=n=>String(n).padStart(2,"0");S.data=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());["letra","enc","enc2","sup","tec","proj"].forEach(k=>S[k]="");S.eg=0;S.opInit=0;S.col={};S.showLoc=0;S.showOp=0;S.showOs=0;S.obsOp="";S.obsAdm="";autoFerOp()}
 {const z=r=>{r.st="op";r.cause="";r.cmot="";r.chora="";r.cst="";r.cstx=0;if(String(r.obs||"").startsWith("MOTIVO: "))r.obs=""};if(S.g)for(const k in S.g)(S.g[k]||[]).forEach(l=>(l||[]).forEach(z));if(S.evt)S.evt.forEach(z);S.manut={};S.manNA={}}
 }
 function normA(){
@@ -223,7 +226,7 @@ function migrate(){
 {if(!S.evt){S.evt=[];C.forEach(c=>(S.ev[c.k]||[]).forEach(r=>S.evt.push(Object.assign({ct:c.k},r))))}
  for(const k in S.manut)S.manut[k].forEach(m=>{if(m.previsao!=="COM PREVISÃO"){m.previsao="SEM PREVISÃO";m.hora=""}});
  if(S.evNA===undefined)S.evNA=S.evt.length?0:1;
- if(S.showLoc===undefined)S.showLoc=1;if(S.showOp===undefined)S.showOp=1;if(S.showOs===undefined)S.showOs=1;if(!window.__sh0){window.__sh0=1;if(S.titulo!=="PASSAGEM DE TURNO"){S.showLoc=0;S.showOp=0;S.showOs=0}}
+ if(S.showLoc===undefined)S.showLoc=1;if(S.showOp===undefined)S.showOp=1;if(S.showOs===undefined)S.showOs=1;if(!window.__sh0){window.__sh0=1;S.showLoc=0;S.showOp=0;S.showOs=0;S.col={};autoFerOp()}
  const idr=r=>{if(!r.id)r.id=uid()};C.forEach(c=>S.g[c.k].forEach(l=>l.forEach(idr)));S.evt.forEach(r=>{idr(r);if(!r.ct)r.ct="PORTO"});
  if(!S.mrec){S.mrec=1;C.forEach(c=>S.g[c.k].forEach(l=>l.forEach(r=>{if(r.st==="man")linkMan(c.k,r)})));S.evt.forEach(r=>{if(r.st==="man")linkMan(r.ct,r)})}
  save()}
@@ -287,7 +290,7 @@ function buildC(c,box){
  let lastA=null;c.G.forEach(([area,tp],gi)=>{if(hid(k,ntp(tp)))return;const list=S.g[k][gi];if(lastA!==area){const h=document.createElement("div");h.className="ah";h.textContent=area;box.appendChild(h);lastA=area}const cd=card(tp,box);
   list.forEach((r,i)=>{const d=rowShell(list,i,1);
    d.appendChild(seg(r,"st",[["op","🟢 OPERACIONAL","s-op"],["man","🔴 NÃO ATENDIMENTO","s-man"]],()=>{if(r.st==="man"){build();askMan(r,k)}else{r.cause="";linkMan(k,r);build()}}));if(r.st==="man")d.appendChild(editBtn(r,k));
-   const g=document.createElement("div");g.className="g2";[["tag","TAG"],["frota","Frota"],["posto","Local"],["loc","Localização"],["os","OS/OM"],["operador","Operador"]].filter(([n])=>!(n==="loc"&&!S.showLoc)&&!(n==="operador"&&!S.showOp)).forEach(([n,l])=>{const w=inp(r,n,l,"");if(n==="frota"){w.lastChild.onchange=()=>build();w.lastChild.addEventListener("input",()=>{const f=findMan(r.id);if(f)S.manut[f[0]][f[1]].frota=r.frota})}g.appendChild(w)});d.appendChild(g);
+   const g=document.createElement("div");g.className="g2";[["tag","TAG"],["frota","Frota"],["posto","Local"],["loc","Localização"],["operador","Operador"],["os","OM/OS"]].filter(([n])=>!(n==="loc"&&!S.showLoc)&&!(n==="operador"&&!S.showOp)).forEach(([n,l])=>{const w=inp(r,n,l,"");if(n==="frota"){w.lastChild.onchange=()=>build();w.lastChild.addEventListener("input",()=>{const f=findMan(r.id);if(f)S.manut[f[0]][f[1]].frota=r.frota})}g.appendChild(w)});d.appendChild(g);
    crane(r,d);impUI(r,d);d.appendChild(inp(r,"obs","Observação (opcional)"));cd.appendChild(d)});
   addBtn(cd,"+ Adicionar",()=>list.push({on:1,st:"op",tag:"",frota:"",posto:"",loc:defLoc(k,tp),operador:"",obs:"",pat:0,des:0,mon:0,cp:""}))});
  }
@@ -348,7 +351,7 @@ function buildEv(box){
    {const cc=C.find(x=>x.k===r.ct),ars=cc?[...new Set(cc.G.map(x=>x[0]))]:[];if(ars.length>1){const w=document.createElement("div");w.innerHTML="<label>Área do eventual</label><select>"+opt(ars)+"</select>";const sa=w.lastChild;sa.value=evArea(cc,r);sa.onchange=()=>{r.ar=sa.value;save();build()};d.appendChild(w)}}
   if(S.sel[r.ct]&&hid(r.ct,ntp(r.eq))){const w=document.createElement("div");w.style.cssText="font-size:12px;color:var(--dg);margin-top:4px";w.textContent="⚠ "+ntp(r.eq)+" está oculto no filtro de "+r.ct+": este quadro não aparece no informativo.";d.appendChild(w)}
   if(!S.sel[r.ct]){const w=document.createElement("div");w.style.cssText="font-size:12px;color:var(--dg);margin-top:4px";w.textContent="⚠ "+r.ct+" não está selecionado: este quadro não aparece no informativo.";d.appendChild(w)}
-  [["tag","TAG"],["frota","Frota"],["local","Local"],["loc","Localização"],["os","OS/OM"],["operador","Operador"]].filter(([n])=>!(n==="loc"&&!S.showLoc)&&!(n==="operador"&&!S.showOp)).forEach(([n,l])=>{const w=inp(r,n,l);if(n==="frota"){w.lastChild.onchange=()=>build();w.lastChild.addEventListener("input",()=>{const f=findMan(r.id);if(f)S.manut[f[0]][f[1]].frota=r.frota})}d.appendChild(w)});
+  [["tag","TAG"],["frota","Frota"],["local","Local"],["loc","Localização"],["operador","Operador"],["os","OM/OS"]].filter(([n])=>!(n==="loc"&&!S.showLoc)&&!(n==="operador"&&!S.showOp)).forEach(([n,l])=>{const w=inp(r,n,l);if(n==="frota"){w.lastChild.onchange=()=>build();w.lastChild.addEventListener("input",()=>{const f=findMan(r.id);if(f)S.manut[f[0]][f[1]].frota=r.frota})}d.appendChild(w)});
   crane(r,d);impUI(r,d);d.appendChild(inp(r,"obs","Observação (opcional)"));ce.appendChild(d)});
  addBtn(ce,"+ Adicionar equipamento eventual",()=>ev.push({id:uid(),ct:(selC()[0]||C[0]).k,st:"op",eq:"",tag:"",frota:"",local:"",loc:"",operador:"",obs:"",pat:0,des:0,mon:0,cp:""}));
 }
@@ -398,15 +401,21 @@ function renderObs(){if(!S.obsQ)S.obsQ={};if(!S.obsGrm){S.obsGrm=1;const q=S.obs
    t.oninput=e=>{const q=t.selectionStart;t.value=t.value.toUpperCase();try{t.setSelectionRange(q,q)}catch(_){}S.obsQ[i].x=t.value;t.className=t.value.trim()?"":"bad";save()};d.appendChild(t)}
   box.appendChild(d)});
  const c=document.createElement("div");c.className="oqc";c.textContent=cnt?cnt+" de "+OBQ.length+" pergunta(s) respondida(s) — aparecem na imagem.":"Nenhuma resposta: a OBSERVAÇÃO não aparece na imagem.";box.insertBefore(c,box.firstChild)}
+function buildObs2(){const h=$("ob2h"),b=$("ob2");h.innerHTML="";b.innerHTML="";if(!isPT())return;
+ if(secHdr(h,"__obs2","OBSERVAÇÕES"))return;
+ [["obsOp","📋 OPERACIONAL","Ocorrências e situações da operação."],["obsAdm","🗒️ ADMINISTRATIVO","Efetivo, documentação, escalas e controles."]].forEach(([k,t,d])=>{const c=card(t,b);const p=document.createElement("div");p.style.cssText="font-size:13px;color:var(--mu);margin:-2px 0 8px";p.textContent=d;c.appendChild(p);
+  const ta=document.createElement("textarea");ta.rows=3;ta.placeholder="DIGITE SUA OBSERVAÇÃO...";ta.value=String(S[k]||"").toUpperCase();
+  ta.oninput=()=>{const q=ta.selectionStart;ta.value=ta.value.toUpperCase();try{ta.setSelectionRange(q,q)}catch(e){}S[k]=ta.value;save()};c.appendChild(ta)});
+ buildImp(b);buildMv(b,"mob","Mobilização");buildMv(b,"des","Desmobilização")}
 function build(){
  updUndo();
  $("ttl").textContent="📋 "+S.titulo;document.title=S.titulo.charAt(0)+S.titulo.slice(1).toLowerCase();
- {const tc=$("tchips");tc.innerHTML="";TITS.forEach(t=>{const b=document.createElement("button");b.textContent=(S.titulo===t?"✓ ":"")+t;b.className=S.titulo===t?"on":"";b.onclick=()=>{S.titulo=t;if(t!=="PASSAGEM DE TURNO"){S.showLoc=0;S.showOp=0;S.showOs=0}save();build()};tc.appendChild(b)})}
- $("shl").checked=!!S.showLoc;$("sho").checked=!!S.showOp;
- $("data").value=S.data;$("letra").value=S.letra;["enc","enc2","sup","tec","proj"].forEach(ddSync);window.egAp&&window.egAp();$("hdrh").innerHTML="";$("hdrc").style.display=secHdr($("hdrh"),"__hdr","CABEÇALHO")?"none":"";$("obsh").innerHTML="";$("obsc").style.display=S.titulo!=="PASSAGEM DE TURNO"?"none":(secHdr($("obsh"),"__obs","OBSERVAÇÃO")?"none":"");renderObs();
- const ch=$("chips");ch.innerHTML="";C.forEach(c=>{const b=document.createElement("button");b.textContent=(S.sel[c.k]?"✓ ":"")+c.k;b.className=S.sel[c.k]?"on":"";b.onclick=()=>{S.sel[c.k]=S.sel[c.k]?0:1;save();build()};ch.appendChild(b)});
+ {const tc=$("tchips");tc.innerHTML="";TITS.forEach(t=>{const b=document.createElement("button");b.textContent=(S.titulo===t?"✓ ":"")+TL(t);b.className=S.titulo===t?"on":"";b.onclick=()=>{S.titulo=t;if(t!=="PASSAGEM DE TURNO"){S.showLoc=0;S.showOp=0;S.showOs=0;autoFerOp()}save();build()};tc.appendChild(b)})}
+ $("shl").checked=!!S.showLoc;$("sho").checked=!!S.showOp;$("shos").checked=!!S.showOs;
+ $("data").value=S.data;$("letra").value=S.letra;["enc","enc2","sup","tec","proj"].forEach(ddSync);window.egAp&&window.egAp();$("hdrh").innerHTML="";$("hdrc").style.display=secHdr($("hdrh"),"__hdr","CABEÇALHO")?"none":"";$("obsh").innerHTML="";$("obsc").style.display=S.titulo!=="PASSAGEM DE TURNO"?"none":(secHdr($("obsh"),"__obs","CHECK-LIST DO TURNO")?"none":"");renderObs();
+ const ch=$("chips");ch.innerHTML="";C.forEach(c=>{const b=document.createElement("button");b.textContent=(S.sel[c.k]?"✓ ":"")+c.k;b.className=S.sel[c.k]?"on":"";b.onclick=()=>{S.sel[c.k]=S.sel[c.k]?0:1;autoFerOp();save();build()};ch.appendChild(b)});
  const sc=selC();$("sub").textContent=sc.length?sc.map(c=>c.k).join(" · "):"NENHUM CONTRATO SELECIONADO";
- const box=$("secs");box.innerHTML="";sc.forEach(c=>buildC(c,box));buildEv(box);buildImp(box);if(S.titulo==="PASSAGEM DE TURNO"){buildMv(box,"mob","Mobilização");buildMv(box,"des","Desmobilização")}
+ const box=$("secs");box.innerHTML="";sc.forEach(c=>buildC(c,box));buildEv(box);if(!isPT())buildImp(box);buildObs2();
 }
 $("data").oninput=e=>{S.data=e.target.value;save();applyOp();build()};$("letra").onchange=e=>{S.letra=e.target.value;save();applyOp();build()};
 const P={enc:[["ALEX DAL COL","27 99850-0589"],["DANIEL TAVARES","27 99963-5371"],["DAVID MUNIZ","27 99706-2603"],["FABRÍCIO PONCIERI","27 99612-0219"],["JEANDERSON FERREIRA","27 99983-9189"],["LUCAS DE JESUS","27 99622-5509"],["PATRICK ANDRADE","27 99982-9723"],["VINICIUS DE SOUZA","27 99751-6416"]],
@@ -467,7 +476,7 @@ function drawImg(cv,H,opt){const P=imgP(true);P.t1=P.t2=P.t3="#000";
    if(!rows.length){const ef=window.__uf(ctx,[],1e9,800,BF,H);tx(empty||"NENHUM REGISTRO",M+28,yy+(RH+4-ef)/2,ef,P.mu2,800);return}
    rows.forEach((r,j)=>{const h=rh(r);ctx.fillStyle=j%2?P.z1:P.z0;ctx.fillRect(M,yy,CW,h);
     if(r.dot){ctx.beginPath();ctx.arc(M+36,yy+RH/2,12,0,7);ctx.fillStyle=r.dot;ctx.fill()}
-    r.c.forEach((v,i)=>{if(r.ml&&i===r.w){const mw=cols[i][1]*k-8,fs=window.__uf(ctx,r.ml,mw,700,BF,H);r.ml.forEach((ln,n)=>tx(ln,M+cols[i][0]*k,yy+(RH-fs*r.ml.length)/2+n*fs,fs,P.t2,700,mw,"left"))}else{const mw=cols[i][1]*k-8,w=i===0?900:700,s0=String(v||"—").toUpperCase(),ls=heads[i]==="OS/OM"&&s0.includes(" / ")?s0.split(" / "):[s0],fs=window.__uf(ctx,ls,mw,w,BF,H);ls.forEach((ln,n)=>tx(ln,M+cols[i][0]*k,yy+(RH-fs*ls.length)/2+n*fs,fs,i===0?P.t1:P.t2,w,mw,"left",0))}});
+    r.c.forEach((v,i)=>{if(r.ml&&i===r.w){const mw=cols[i][1]*k-8,fs=window.__uf(ctx,r.ml,mw,700,BF,H);r.ml.forEach((ln,n)=>tx(ln,M+cols[i][0]*k,yy+(RH-fs*r.ml.length)/2+n*fs,fs,P.t2,700,mw,"left"))}else{const mw=cols[i][1]*k-8,w=i===0?900:700,s0=String(v||"—").toUpperCase(),ls=heads[i]==="OM/OS"&&s0.includes(" / ")?s0.split(" / "):[s0],fs=window.__uf(ctx,ls,mw,w,BF,H);ls.forEach((ln,n)=>tx(ln,M+cols[i][0]*k,yy+(RH-fs*ls.length)/2+n*fs,fs,i===0?P.t1:P.t2,w,mw,"left",0))}});
     {const of=window.__uf(ctx,[],1e9,700,BF,H);r.ol.forEach((ln,n)=>tx(ln,M+cols[0][0]*k,yy+RH-4+n*OLH,of,P.ob,700))}
     yy+=h})},hc)};
  y=HDR+8+GY;CW=W-2*M0;
@@ -479,7 +488,7 @@ function drawImg(cv,H,opt){const P=imgP(true);P.t1=P.t2=P.t3="#000";
   const areas=[...new Set(c.G.filter(x=>aOk(ck,x[0])).map(x=>x[0]))],multi=new Set(c.G.filter(x=>areaOk(ck,x[0])).map(x=>x[0])).size>1,SL=!!S.showLoc,SO=!!S.showOp,SOS=!!S.showOs;
   const K0=CC/1000,AV=1000-56-10,vr=[];c.G.forEach((x,gi)=>{if(hid(ck,ntp(x[1]))||!aOk(ck,x[0]))return;(S.g[ck][gi]||[]).forEach(r=>{if(r.on&&imgVis(ck,r))vr.push(r)})});if(!S.evNA)S.evt.forEach(r=>{if(r.ct===ck&&r.on!==0&&evOk(r)&&!hid(ck,ntp(r.eq)))vr.push(r)});
   const mz=(strs,z,wt)=>{try{ctx.letterSpacing="0px"}catch(e){}ctx.font=`${wt} ${z}px ${FN}`;let m=0;strs.forEach(t=>{m=Math.max(m,ctx.measureText(String(t||"—").toUpperCase()).width)});return m};
-  const spec=[["TAG",vr.map(r=>r.tag),900,0],["FROTA",vr.map(r=>r.frota),700,0],["LOCAL",vr.map(r=>r.posto||r.local),700,0]].concat(S.showLoc?[["LOCALIZAÇÃO",vr.map(r=>String(r.loc||"").slice(0,16)),700,28]]:[],SOS?[["OS/OM",[].concat(...vr.map(r=>String(r.os||"—").split(" / "))),700,0]]:[],SO?[["OPERADOR",vr.map(r=>r.operador),700,0]]:[]);
+  const spec=[["TAG",vr.map(r=>r.tag),900,0],["FROTA",vr.map(r=>r.frota),700,0],["LOCAL",vr.map(r=>r.posto||r.local),700,0]].concat(S.showLoc?[["LOCALIZAÇÃO",vr.map(r=>String(r.loc||"").slice(0,16)),700,28]]:[],SO?[["OPERADOR",vr.map(r=>r.operador),700,0]]:[],SOS?[["OM/OS",[].concat(...vr.map(r=>String(r.os||"—").split(" / "))),700,0]]:[]);
   const req=z=>spec.map(([h,v,wt,ex])=>Math.ceil((Math.max(mz(v,z,wt),mz([h],z,800))+12)/K0)+ex);
   let zc=BF;for(;zc>16;zc--){if(req(zc).reduce((a,b)=>a+b,0)<=AV)break}
   if(H===100)window.__gm=Math.min(window.__gm||24,zc);
@@ -488,11 +497,11 @@ function drawImg(cv,H,opt){const P=imgP(true);P.t1=P.t2=P.t3="#000";
   const byA={},common=[];let hasA=0,hasB=0;const ht=[];const isB=t=>/^(EMPILHADEIRA|ORMIG)/.test(ntp(t));
   c.G.map((x,gi)=>({x,gi})).sort((a,b)=>EQO(a.x[1])-EQO(b.x[1])).forEach(({x,gi})=>{
    if(hid(ck,ntp(x[1]))||!aOk(ck,x[0]))return;const l=S.g[ck][gi].filter(r=>r.on&&imgVis(ck,r)).sort(tagCmp);if(!l.length)return;isB(x[1])?hasB=1:hasA=1;if(!ht.includes(ntp(x[1])))ht.push(ntp(x[1]));const m=l.filter(r=>r.st==="man").length;
-   if(!(opt&&opt.mode==="ev")&&(!(opt&&opt.grp)||isB(x[1])===(opt.grp==="B"))&&(!(opt&&opt.tps)||opt.tps.includes(ntp(x[1]))))(byA[x[0]]=byA[x[0]]||[]).push(()=>tbl(multi?(ck==="PORTO"?"HABITUAL | "+ntp(x[1]):x[1]):x[0]+" | "+x[1],hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.posto].concat(SL?[String(r.loc||"").slice(0,16)]:[],SOS?[r.os]:[],SO?[r.operador]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))});
+   if(!(opt&&opt.mode==="ev")&&(!(opt&&opt.grp)||isB(x[1])===(opt.grp==="B"))&&(!(opt&&opt.tps)||opt.tps.includes(ntp(x[1]))))(byA[x[0]]=byA[x[0]]||[]).push(()=>tbl(multi?(ck==="PORTO"?"HABITUAL | "+ntp(x[1]):x[1]):x[0]+" | "+x[1],hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.posto].concat(SL?[String(r.loc||"").slice(0,16)]:[],SO?[r.operador]:[],SOS?[r.os]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))});
   const evR=S.evNA||(opt&&opt.mode!=="ev"&&opt.mode!=="both")?[]:S.evt.filter(r=>r.ct===ck&&evOk(r)&&!hid(ck,ntp(r.eq))&&(!opt||opt.area===undefined||evArea(c,r)===opt.area)),evM=evR.filter(r=>r.st==="man").length;
   {const eqs=[];evR.forEach(r=>{const n=ntp(r.eq)||"SEM EQUIPAMENTO";if(!eqs.includes(n))eqs.push(n)});
   eqs.sort((a,b)=>EQO(a)-EQO(b));eqs.filter(n=>!(opt&&opt.tps)||opt.tps.includes(n)).forEach(n=>{const l=evR.filter(r=>(ntp(r.eq)||"SEM EQUIPAMENTO")===n).sort((a,b)=>tagCmp(a,b)||String(a.frota||"").trim().localeCompare(String(b.frota||"").trim(),"pt-BR",{numeric:true})),m=l.filter(r=>r.st==="man").length;
-   common.push(()=>tbl("EVENTUAL | "+n,hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.local].concat(SL?[String(r.loc||"").slice(0,16)]:[],SOS?[r.os]:[],SO?[r.operador]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))})}
+   common.push(()=>tbl("EVENTUAL | "+n,hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.local].concat(SL?[String(r.loc||"").slice(0,16)]:[],SO?[r.operador]:[],SOS?[r.os]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))})}
    const im=opt&&!opt.imp?[]:impactList(ck);
    if(im.length)common.push(()=>tbl("IMPACTOS",isPT()?["TIPO","FROTA","MOTIVO","STATUS","PREVISÃO","LIBERADO"]:["TIPO","FROTA","MOTIVO","STATUS","PREVISÃO"],isPT()?[[70,130],[200,100],[300,250],[550,200],[750,150],[900,90]]:[[70,150],[220,110],[330,270],[600,200],[800,190]],im.map(x=>({dot:x.tipo!=="MANUTENÇÃO"?"#eab308":"#e53935",c:[x.tipo,x.frota,x.motivo,x.status,x.com?x.hora:"SEM PREVISÃO"].concat(isPT()?[x.lib?"SIM":"NÃO"]:[]),w:2})),"",[["#e53935",`${im.filter(x=>x.tipo==="MANUTENÇÃO").length} MANUTENÇÃO`],["#eab308",`${im.filter(x=>x.tipo==="OPERACIONAL").length} OPERACIONAL`],["#eab308",`${im.filter(x=>x.tipo==="IMPACTO").length} IMPACTO`]],"#d32f2f"));
   M=M0;CW=CC;k=CC/1000;let y0=y;
@@ -509,13 +518,15 @@ function drawImg(cv,H,opt){const P=imgP(true);P.t1=P.t2=P.t3="#000";
   let yMax=y0;[0,1].forEach(col=>{M=M0+col*(CC+GP);CW=CC;k=CC/1000;y=y0;colsF[col].forEach(f=>f());yMax=Math.max(yMax,y)});
   UN.push({ck,multi,areas:areas.filter(a=>byA[a]),ev:evR.length>0,evAreas:[...new Set(evR.map(r=>evArea(c,r)))].filter(a=>aOk(ck,a)),imp:im.length>0,hasA,hasB,ht,et:[...new Set(evR.map(r=>ntp(r.eq)||"SEM EQUIPAMENTO"))]});y=yMax;});
  {const cmp=[];
- if(S.titulo==="PASSAGEM DE TURNO")[["mob","MOBILIZAÇÃO"],["des","DESMOBILIZAÇÃO"]].forEach(([key,tt])=>{const l=S[key].na?[]:S[key].rows.filter(mvFilled);if(!l.length)return;const ok=l.filter(r=>r.status!=="pend").length;cmp.push(()=>tbl(tt,["EQUIPAMENTO","FROTA","OPERADOR","MOTIVO","STATUS"],MVC,l.map(r=>({dot:r.status==="pend"?"#e53935":"#22c55e",c:[r.eq,r.frota,r.operador,r.motivo,r.status==="pend"?"PENDENTE":"REALIZADO"],obs:r.obs})),"",[["#22c55e",`${ok} REALIZADO`],["#e53935",`${l.length-ok} PENDENTE`]],"#FFE680"))});
  const oa=S.titulo==="PASSAGEM DE TURNO"?obsAns():[];
- if(oa.length)cmp.push(()=>{const LH=FS+10,mw=CW-130,items=[];ctx.font=`700 ${BF}px ${FN}`;
+ const txtPanel=(ttl,its)=>{if(!its.length)return;cmp.push(()=>{const LH=FS+10,mw=CW-130,items=[];ctx.font=`700 ${BF}px ${FN}`;
   const wr=(txt)=>{const ls=[];let l="";txt.split(" ").forEach(wd=>{const t=l?l+" "+wd:wd;if(ctx.measureText(t).width>mw&&l){ls.push(l);l=wd}else l=t});ls.push(l);return ls};
-  oa.forEach(r=>{const hd=wr(r.n+". "+r.t+":"),ls=hd.slice();if(r.a==="S"&&r.x)r.x.split("\n").forEach(par=>wr(par).forEach(l=>ls.push("   "+l)));items.push({ls,hl:hd.length,h:ls.length*LH+20})});
+  its.forEach(r=>{const hd=wr(r.h),ls=hd.slice();if(r.x)r.x.split("\n").forEach(par=>wr(par).forEach(l=>ls.push("   "+l)));items.push({ls,hl:hd.length,h:ls.length*LH+20})});
   const tot=items.reduce((q,it)=>q+it.h,0);
-  panel("OBSERVAÇÕES",tot,y0=>{const of=window.__uf(ctx,[],1e9,700,BF,H);let yy=y0;items.forEach((it,j)=>{ctx.fillStyle=j%2?P.z1:P.z0;ctx.fillRect(M,yy,CW,it.h);it.ls.forEach((l,i)=>{tx(l,M+28,yy+10+i*LH,of,i<it.hl?"#000":P.ob,700)});yy+=it.h})},"#FFE680")});
+  panel(ttl,tot,y0=>{const of=window.__uf(ctx,[],1e9,700,BF,H);let yy=y0;items.forEach((it,j)=>{ctx.fillStyle=j%2?P.z1:P.z0;ctx.fillRect(M,yy,CW,it.h);it.ls.forEach((l,i)=>{tx(l,M+28,yy+10+i*LH,of,i<it.hl?"#000":P.ob,700)});yy+=it.h})},"#FFE680")})};
+ txtPanel("CHECK-LIST DO TURNO",oa.map(r=>({h:r.n+". "+r.t+":",x:r.a==="S"?r.x:""})));
+ if(S.titulo==="PASSAGEM DE TURNO")[["mob","MOBILIZAÇÃO"],["des","DESMOBILIZAÇÃO"]].forEach(([key,tt])=>{const l=S[key].na?[]:S[key].rows.filter(mvFilled);if(!l.length)return;const ok=l.filter(r=>r.status!=="pend").length;cmp.push(()=>tbl(tt,["EQUIPAMENTO","FROTA","OPERADOR","MOTIVO","STATUS"],MVC,l.map(r=>({dot:r.status==="pend"?"#e53935":"#22c55e",c:[r.eq,r.frota,r.operador,r.motivo,r.status==="pend"?"PENDENTE":"REALIZADO"],obs:r.obs})),"",[["#22c55e",`${ok} REALIZADO`],["#e53935",`${l.length-ok} PENDENTE`]],"#FFE680"))});
+ txtPanel("OBSERVAÇÕES",S.titulo==="PASSAGEM DE TURNO"?[["OPERACIONAL",S.obsOp],["ADMINISTRATIVO",S.obsAdm]].map(([t,v])=>({h:t+":",x:String(v||"").trim().toUpperCase()})).filter(r=>r.x):[]);
  if(cmp.length&&(!opt||opt.cmp)){ST.push(y);M=M0;CW=W-2*M0;k=CW/1000;
   {const bh=64;ctx.fillStyle=P.bn;ctx.beginPath();ctx.roundRect(M0,y,W-2*M0,bh,18);ctx.fill();ctx.fillStyle=Y;ctx.fillRect(M0+4,y+12,12,bh-24);tx("INFORMAÇÕES COMPLEMENTARES",M0+40,y+(bh-36)/2,36,Y,900);y+=bh+GY}
   for(let i=0;i<cmp.length;i+=2){const y0=y;let ym=y0;cmp.slice(i,i+2).forEach((f,j)=>{M=M0+j*(CC+GP);CW=CC;k=CC/1000;y=y0;f();ym=Math.max(ym,y)});y=ym}
@@ -881,7 +892,7 @@ const sEnc=p=>encodeURIComponent(String(p)).replace(/[!'()*]/g,c=>"%"+c.charCode
 const jv=v=>JSON.stringify(v===undefined?null:v);
 function syncFlat(){const m=new Map();for(const k of Object.keys(S)){if(SYNC.exclude[k])continue;const v=S[k];if(v&&typeof v==="object"&&!Array.isArray(v)){for(const p of Object.keys(v))m.set(sEnc(k)+"."+sEnc(p),{t:"o",k:k,p:p,v:v[p]})}else if(v!==undefined)m.set(sEnc(k),{t:"v",k:k,v:v})}return m}
 function setBanner(kind,extra){const b=$("syncb");if(!b)return;const hm=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
- const T={local:"💾 Sem conexão com o banco: os dados ficam só neste aparelho.",wait:"⏳ Aguardando o responsável abrir o link pela primeira vez para publicar os dados compartilhados.",ro:"👁️ Somente leitura: você vê tudo em tempo real e pode gerar imagem, mas não edita.",ok:"🟢 Compartilhado · salvo às "+hm(),saving:"🔄 Salvando…",sync:"🟢 Compartilhado · atualizado às "+hm(),noreset:"Somente o responsável pelo link pode restaurar o modelo inicial.",err:"⚠️ Não foi possível salvar agora"+(extra?" ("+extra+")":"")+". Tentando de novo…",quota:"⚠️ Limite de armazenamento do banco atingido."};
+ const T={local:"💾 Modo individual: os dados ficam só neste aparelho (entre no Claude para compartilhar).",wait:"⏳ Aguardando o responsável abrir o link pela primeira vez para publicar os dados compartilhados.",ro:"👁️ Somente leitura: você vê tudo em tempo real e pode gerar imagem, mas não edita.",ok:"🟢 Compartilhado · salvo às "+hm(),saving:"🔄 Salvando…",sync:"🟢 Compartilhado · atualizado às "+hm(),noreset:"Somente o responsável pelo link pode restaurar o modelo inicial.",err:"⚠️ Não foi possível salvar agora"+(extra?" ("+extra+")":"")+". Tentando de novo…",quota:"⚠️ Limite de armazenamento do banco atingido."};
  b.textContent=T[kind]||"";if(kind==="noreset")setTimeout(()=>setBanner(SYNC.ro?"ro":"ok"),4000)}
 function lockUI(){["pgInf","pgCen","pgPen"].forEach(id=>{const e=$(id);if(e)e.querySelectorAll("input,select,textarea,button").forEach(x=>{if(!x.closest(".ch"))x.disabled=true})});document.querySelectorAll(".tb button").forEach(b=>b.disabled=true)}
 function unlockUI(){["pgInf","pgCen","pgPen"].forEach(id=>{const e=$(id);if(e)e.querySelectorAll("input,select,textarea,button").forEach(x=>{x.disabled=false})});updUndo();document.querySelectorAll(".tb button").forEach(b=>{if(b.id!=="undo")b.disabled=false})}
@@ -893,7 +904,7 @@ async function syncFlush(){if(!SYNC.on||!SYNC.ready||SYNC.ro||SYNC.applying)retu
   for(const id of todo){const b=cur.get(id);await SYNC.db.doc("state/"+id).set(JSON.parse(JSON.stringify(b)));SYNC.last.set(id,jv(b.v))}
   for(const id of del){await SYNC.db.doc("state/"+id).delete();SYNC.last.delete(id)}
   if(todo.length||del.length)setBanner("ok");SYNC.fails=0}
- catch(e){const c=e&&e.code;if(c==="invalid_argument"||c==="revoked"||c==="not_granted"){SYNC.ro=true;setBanner("ro");lockUI()}else if(c==="quota_exceeded"||c==="resource-exhausted"){setBanner("quota")}else if(c==="permission-denied"){setBanner("err","sem permissão: confira as regras do Firestore")}else{SYNC.fails=(SYNC.fails||0)+1;setBanner("err",c);if(SYNC.fails<6)setTimeout(schedSync,2000*SYNC.fails)}}
+ catch(e){const c=e&&e.code;if(c==="invalid_argument"||c==="revoked"||c==="not_granted"){SYNC.ro=true;setBanner("ro");lockUI()}else if(c==="quota_exceeded"){setBanner("quota")}else{SYNC.fails=(SYNC.fails||0)+1;setBanner("err",c);if(SYNC.fails<6)setTimeout(schedSync,2000*SYNC.fails)}}
  SYNC.busy=false;if(SYNC.again){SYNC.again=false;schedSync()}}
 document.addEventListener("input",()=>{SYNC.li=Date.now()},true);
 function syncApplySoon(d){clearTimeout(SYNC.at);SYNC.at=setTimeout(syncApply,d==null?300:d)}
@@ -909,16 +920,13 @@ function syncApply(){const ae=document.activeElement;
  catch(e){console.error(e)}
  SYNC.applying=false;if(SYNC.pending.length)syncApplySoon(300)}
 async function startSync(){
- try{
-  const FIREBASE_CONFIG={apiKey:"AIzaSyA2POPuPsupEin02gI26p57UFXyCUCPPA0",authDomain:"controledeacoes1-d5df5.firebaseapp.com",projectId:"controledeacoes1-d5df5",storageBucket:"controledeacoes1-d5df5.firebasestorage.app",messagingSenderId:"7733595501",appId:"1:7733595501:web:d12dc18eef9bda1eb09e64"};
-  if(!window.firebase){setBanner("local");return}
-  firebase.initializeApp(FIREBASE_CONFIG);
-  const fs=firebase.firestore();
-  const enc=b=>({t:b.t,k:b.k,p:b.p===undefined?null:b.p,j:JSON.stringify(b.v===undefined?null:b.v)});
-  const dec=d=>{if(!d)return d;let v=null;try{v=JSON.parse(d.j)}catch(e){}return{t:d.t,k:d.k,p:d.p,v:v}};
-  const db={doc:p=>({set:b=>fs.doc(p).set(enc(b)),delete:()=>fs.doc(p).delete()}),
-   collection:n=>({onSnapshot:(ok,er)=>fs.collection(n).onSnapshot(sn=>ok({empty:sn.empty,docChanges:()=>sn.docChanges().map(c=>({type:c.type,doc:{id:c.doc.id,data:()=>dec(c.doc.data())}}))}),er)})};
-  SYNC.db=db;SYNC.owner=true;SYNC.ro=false;
+ try{if(typeof claude==="undefined"||!claude||!claude.use){setBanner("local");return}
+  const db=await claude.use("db");if(!db){setBanner("local");return}
+  let user=null;try{user=await claude.use("user")}catch(e){}
+  SYNC.db=db;
+  try{SYNC.owner=user?!!(await user.isOwner()):false}catch(e){}
+  let cw=null;try{cw=user?await user.can("data.write"):null}catch(e){}
+  SYNC.ro=!(SYNC.owner||cw!==false);
   SYNC.on=true;setBanner("saving");
   SYNC.unsub=db.collection("state").onSnapshot(snap=>{
    const chs=snap.docChanges();
