@@ -2,7 +2,7 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0b0d"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Informativo de Turno</title><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -98,6 +98,112 @@ button.pri,.chips button.on,.pgt button.on,.seg button.s-tg.on{background:#FFD21
 @media(min-width:900px){.brand img{height:68px}h1{font-size:30px}.tb{max-width:none}.tb button{font-size:15px}.card{padding:18px}.g2{gap:16px}}
 @media(max-width:420px){h1{font-size:21px;padding:7px 20px}.brand img{height:44px}button{font-size:14px}}
 body.ptm .nopt,body.ptm .ninf,body:not(.ptm) .npt{display:none!important}
+</style>
+<style id="ux2">
+/* ===== REDESIGN: NAVEGAÇÃO INFERIOR + VISUAL LOCAR ===== */
+:root[data-theme="dark"]{--bg:#0a0b0d;--card:#13161b;--card2:#181c22;--bd:rgba(255,255,255,.08);--ac:#FFD21F;--ac2:#111;--ln:rgba(255,255,255,.08);--navh:68px}
+body{background:radial-gradient(900px 420px at 50% -120px,rgba(255,210,31,.09),transparent 70%),#0a0b0d;padding:0 14px calc(var(--navh) + 36px + env(safe-area-inset-bottom,0px));min-height:100vh}
+/* topo */
+.brand{justify-content:flex-start;align-items:center;padding:14px 4px 12px;margin:0 0 4px;background:transparent;border-bottom:0;position:relative}
+.brand::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,#FFD21F,rgba(255,210,31,.0) 75%)}
+.brand img{height:34px;max-width:60%}
+#syncb{font-size:11.5px!important;font-weight:500!important;margin:8px 0 0!important;line-height:1.35}
+h1{clip-path:none;background:none;color:var(--tx);text-align:left;font-size:30px;line-height:1.05;padding:2px 0 2px 12px;margin:14px 0 4px;border-left:5px solid #FFD21F;width:auto;letter-spacing:.01em}
+.sub{text-align:left;font-size:14px;color:#c9ced6;margin:0 0 12px;padding-left:17px;letter-spacing:.06em}
+@media(max-width:420px){h1{font-size:26px;padding:2px 0 2px 12px}}
+/* barra de ações */
+.tb{gap:8px;padding:8px 0 10px;background:linear-gradient(#0a0b0d 70%,rgba(10,11,13,0))}
+.tb button{background:var(--card2);border:1px solid var(--ln);border-radius:12px;padding:11px 6px;font-size:13px;letter-spacing:.03em}
+.tb button#rst{flex:.75;color:#ff8a8a;border-color:rgba(255,93,93,.28);background:rgba(255,93,93,.06)}
+.tb button#nrp{background:#FFD21F;border-color:#FFD21F;color:#111}
+.tb button#nrp:hover{border-color:#fff}
+/* cartões */
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--ln);border-top:1px solid var(--ln);border-radius:18px;padding:16px 14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+h2{display:flex;align-items:center;gap:9px;font-size:18px;letter-spacing:.04em;color:#fff;margin:0 0 12px}
+h2::before{content:"";width:4px;height:18px;border-radius:2px;background:#FFD21F;flex:none}
+h2[style*="none"]::before{display:none}
+label{color:#aab1bb;font-size:12.5px;margin:10px 0 4px}
+label.na{color:var(--tx)}
+input,select,textarea{min-height:46px;border-radius:12px;background:#0a0c0f;border:1px solid #2a3039;padding:10px 12px}
+textarea{min-height:64px}
+input[type=checkbox]{width:20px;height:20px;min-height:0;accent-color:#FFD21F;flex:none}
+/* chips */
+.chips{gap:8px}
+.chips button{flex:1 1 auto;opacity:1;color:#c9ced6;background:#0f1217;border:1px solid #2a3039;border-radius:999px;padding:11px 16px;min-height:44px}
+.chips button.on{background:#FFD21F;border-color:#FFD21F;color:#111}
+.pgt{display:none!important}
+.seg button{border-radius:12px;min-height:44px}
+/* contratos / áreas */
+.ch{background:rgba(255,210,31,.10);color:#FFD21F;clip-path:none;border:1px solid rgba(255,210,31,.35);border-left:5px solid #FFD21F;border-radius:14px;padding:12px 14px;font-size:20px;margin:22px 0 10px}
+.ch button{color:#FFD21F;border-color:rgba(255,210,31,.5);min-width:42px;min-height:36px}
+.ah{background:var(--card2);color:#fff;border:1px solid var(--ln);border-left:4px solid rgba(255,210,31,.7);border-radius:12px;margin:16px 0 10px;font-size:16px}
+.row,.oq,.crane{background:#0e1115;border:1px solid var(--ln);border-radius:14px}
+.row{padding:10px}
+.oq.y{border-color:rgba(220,38,38,.7)}.oq.n{border-color:rgba(22,163,74,.6)}
+.add{border:1.5px dashed rgba(255,210,31,.5);color:#FFD21F;border-radius:14px;min-height:46px}
+.del{min-width:40px;min-height:40px}
+/* tabelas */
+.tw{border-radius:14px;border:1px solid var(--ln)}
+.ct th,.pt th{background:#0a0b0d;border-bottom:2px solid #FFD21F}
+#pgPen>.card>h2:first-child{display:none}
+.tb button{line-height:1.15}
+/* navegação inferior */
+#bnav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));width:calc(100% - 24px);max-width:560px;height:var(--navh);display:flex;gap:4px;padding:6px;z-index:60;background:rgba(20,23,28,.82);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);border:1px solid rgba(255,255,255,.1);border-radius:24px;box-shadow:0 12px 32px rgba(0,0,0,.55);transition:transform .25s ease,opacity .2s}
+#bnav.hide{transform:translate(-50%,140%);opacity:0;pointer-events:none}
+#bnav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 2px;border:0;border-radius:18px;background:transparent;color:#8d95a1;font-family:Inter,system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.01em;text-transform:none;min-width:0;transition:background .2s,color .2s}
+#bnav button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#bnav button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#bnav button.on{background:rgba(255,210,31,.16);color:#FFD21F}
+#bnav button:active{transform:scale(.94)}
+#bnav button:focus-visible{outline:2px solid #FFD21F;outline-offset:-2px}
+@media(prefers-reduced-motion:reduce){#bnav,#bnav button{transition:none}}
+@media(min-width:900px){body{padding:0 32px calc(var(--navh) + 40px)}#bnav{max-width:520px}}
+
+/* ===== MOBILE: Cenário e Pendências em cartões ===== */
+.pfb{display:none}
+@media(max-width:899px){
+#pgCen .tw,#pgPen .tw{overflow:visible;border:0;border-radius:0;background:none}
+.ct,.pt{display:block;min-width:0!important;width:100%;font-size:14px}
+.ct thead,.pt thead{display:none}
+.ct tbody,.pt tbody{display:block}
+.ct tr,.pt tr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px;padding:14px;background:var(--card2,var(--z1));border:1px solid var(--ln,var(--bd));border-left:6px solid var(--mu);border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.ct td,.pt td{display:block;min-width:0!important;padding:0!important;border:0!important;background:transparent!important;white-space:normal!important;word-break:break-word;font-size:15px}
+.ct td[colspan],.pt td[colspan]{grid-column:1/-1;padding:16px 4px!important}
+.ct td[data-label]::before,.pt td[data-label]::before{content:attr(data-label);display:block;font-size:11px;letter-spacing:.06em;color:var(--mu);margin-bottom:3px;text-transform:uppercase}
+.ct td input,.ct td select,.pt td input,.pt td select,.pt td textarea{width:100%!important;min-width:0!important;box-sizing:border-box;font-size:16px!important;min-height:44px;padding:8px 10px}
+.pt td textarea{min-height:60px}
+/* Cenário */
+.ct td:nth-child(1){order:1;font-size:18px;font-weight:700!important}
+.ct td:nth-child(2){order:2;font-size:18px;font-weight:700!important;text-align:right;color:var(--ac)}
+.ct td:nth-child(1)::before,.ct td:nth-child(2)::before{display:none!important}
+.ct td:nth-child(9){order:3;grid-column:1/-1}
+.ct td:nth-child(3){order:4}.ct td:nth-child(4){order:5}.ct td:nth-child(5){order:6}
+.ct td:nth-child(6){order:7;grid-column:1/-1}
+.ct td:nth-child(7){order:8}.ct td:nth-child(8){order:9}.ct td:nth-child(10){order:10}
+.ct td:nth-child(11){order:11;grid-column:1/-1}
+.ct tr[data-st="OPERACIONAL"]{border-left-color:#16a34a}
+.ct tr[data-st="MANUTENÇÃO"]{border-left-color:#ef4444}
+/* Pendências */
+.pt td:nth-child(1){order:1}.pt td:nth-child(2){order:2}
+.pt td:nth-child(7){order:3}.pt td:nth-child(8){order:4}
+.pt td:nth-child(3){order:5}.pt td:nth-child(6){order:6}
+.pt td:nth-child(4){order:7;grid-column:1/-1}
+.pt td:nth-child(5){order:8;grid-column:1/-1}
+.pt td:nth-child(9){order:9;grid-column:1/-1}
+.pt td:nth-child(10){order:10;grid-column:1/-1}
+.pt td:nth-child(10) .del{width:100%;min-height:44px;font-size:15px}
+.pt td:nth-child(10) .del::after{content:" Remover pendência";font-size:14px}
+.pt tr[data-crit="ALTO"]{border-left-color:#ef4444}
+.pt tr[data-crit="MÉDIO"]{border-left-color:#f59e0b}
+.pt tr[data-crit="BAIXO"]{border-left-color:#22c55e}
+.pt tr.hf{display:none!important}
+/* barra de filtro das pendências */
+.pfb{display:block;margin:0 0 12px}
+.pfb .chips button{flex:1 1 auto;padding:9px 12px;min-height:40px;font-size:13px}
+.pfb input{width:100%;box-sizing:border-box;font-size:16px;min-height:44px;margin-top:8px;padding:8px 12px}
+.pfb .pfc{font-size:12px;color:var(--mu);margin-top:6px}
+#pAdd{width:100%;min-height:48px}
+}
 </style>
 </head>
 <body>
@@ -1019,5 +1125,51 @@ $("pdfx").onclick=()=>{if(!S.pdfOn)return;
 updX();
 })();
 </script><script>(function(){const c=document.getElementById("egc");if(!c)return;function ap(){const g=!!S.eg;c.checked=g;document.getElementById("enc2w").style.display=g?"none":"";document.getElementById("enc_l").textContent=g?"Encarregado Geral":"Encarregado 01 · Guindaste, Caminhão, Ormig e Carreta"}c.onchange=()=>{S.eg=c.checked?1:0;save();ap()};window.egAp=ap;ap()})();</script>
+<script>
+(function(){
+const ICO={
+inf:'<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
+cen:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>',
+pen:'<svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>',
+img:'<svg viewBox="0 0 24 24"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4M12 2v14"/></svg>'};
+const ITEMS=[["inf","Informativo"],["cen","Cenário"],["pen","Pendências"],["img","Enviar"]];
+const nav=document.createElement("nav");nav.id="bnav";nav.setAttribute("aria-label","Navegação principal");
+ITEMS.forEach(([k,l])=>{const b=document.createElement("button");b.type="button";b.dataset.k=k;b.innerHTML=ICO[k]+"<span>"+l+"</span>";
+b.onclick=()=>{if(k==="img"){const c=document.getElementById("imgCard");if(c)c.scrollIntoView({behavior:"smooth",block:"start"})}else{setPage(k)}};nav.appendChild(b)});
+document.body.appendChild(nav);
+let imgVis=false;
+function upd(){let cur=typeof PG!=="undefined"?PG:"inf";nav.querySelectorAll("button").forEach(b=>{const on=imgVis?b.dataset.k==="img":b.dataset.k===cur;b.classList.toggle("on",on);if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
+try{const ic=document.getElementById("imgCard");if(ic&&"IntersectionObserver"in window){new IntersectionObserver(es=>{imgVis=es[0].intersectionRatio>.3;upd()},{threshold:[0,.3,.6]}).observe(ic)}}catch(e){}
+const _b=build;build=function(){const r=_b.apply(this,arguments);upd();return r};
+let t;const isF=e=>e&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName)&&e.type!=="checkbox";
+document.addEventListener("focusin",e=>{if(isF(e.target)){clearTimeout(t);nav.classList.add("hide")}});
+document.addEventListener("focusout",()=>{clearTimeout(t);t=setTimeout(()=>{if(!isF(document.activeElement))nav.classList.remove("hide")},150)});
+upd();
+})();
+</script>
+
+<script>(function(){
+const $=id=>document.getElementById(id);
+const cT=$("cTb"),pT=$("pTb");if(!cT||!pT)return;
+const F={c:"",q:""};
+function lab(t){const th=[...t.querySelectorAll("thead th")].map(x=>x.textContent.trim());
+ t.querySelectorAll("tbody tr").forEach(tr=>{[...tr.children].forEach((td,i)=>{if(th[i]&&td.colSpan<2)td.setAttribute("data-label",th[i])})})}
+function sv(tr,i){const s=tr.children[i]&&tr.children[i].querySelector("select");return s?s.value:""}
+function filt(){const rows=[...pT.querySelectorAll("tbody tr")].filter(r=>r.children.length>2);let n=0;
+ rows.forEach(r=>{const tx=[...r.querySelectorAll("input,select,textarea")].map(e=>e.value).join(" ").toUpperCase();
+  const ok=(!F.c||r.dataset.crit===F.c)&&(!F.q||tx.includes(F.q));r.classList.toggle("hf",!ok);if(ok)n++});
+ const c=$("pfc");if(c)c.textContent="Mostrando "+n+" de "+rows.length}
+function run(){lab(cT);lab(pT);
+ cT.querySelectorAll("tbody tr").forEach(r=>{if(r.children.length>2)r.dataset.st=sv(r,8)});
+ pT.querySelectorAll("tbody tr").forEach(r=>{if(r.children.length>2)r.dataset.crit=sv(r,6)});filt()}
+let h;const sch=()=>{cancelAnimationFrame(h);h=requestAnimationFrame(run)};
+[cT,pT].forEach(t=>{new MutationObserver(sch).observe(t,{childList:true,subtree:true});t.addEventListener("change",run)});
+const w=pT.parentNode,bar=document.createElement("div");bar.className="pfb";
+bar.innerHTML='<div class="chips" id="pfch"><button data-c="" class="on">TODAS</button><button data-c="ALTO">ALTO</button><button data-c="MÉDIO">MÉDIO</button><button data-c="BAIXO">BAIXO</button></div><input id="pfq" type="search" placeholder="Buscar frota, local, descrição…"><div class="pfc" id="pfc"></div>';
+w.parentNode.insertBefore(bar,w);
+bar.querySelectorAll("#pfch button").forEach(b=>b.onclick=()=>{F.c=b.dataset.c;bar.querySelectorAll("#pfch button").forEach(x=>x.classList.toggle("on",x===b));filt()});
+$("pfq").addEventListener("input",e=>{F.q=e.target.value.trim().toUpperCase();filt()});
+run();
+})();</script>
 </body>
 </html>
