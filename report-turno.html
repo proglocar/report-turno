@@ -205,6 +205,25 @@ input[type=checkbox]{width:20px;height:20px;min-height:0;accent-color:#FFD21F;fl
 #pAdd{width:100%;min-height:48px}
 }
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<style>@media print{.fbpill{display:none!important}}</style>
+<script>(function(){
+if(!window.firebase)return;
+const FC={apiKey:"AIzaSyCkv6F2adUNJfOj_uBp8Y1LEVdAGlAHM2M",authDomain:"prontidaolocar.firebaseapp.com",projectId:"prontidaolocar",storageBucket:"prontidaolocar.firebasestorage.app",messagingSenderId:"498721436531",appId:"1:498721436531:web:3c47639ad88b1ba69bcb06"};
+try{firebase.initializeApp(FC)}catch(e){return}
+const fs=firebase.firestore(),au=firebase.auth();
+const enc=o=>Object.assign({},o,{v:o.v===undefined?null:JSON.stringify(o.v)}),dec=d=>Object.assign({},d,{v:typeof d.v==="string"?JSON.parse(d.v):d.v});
+let cu=null,un;const ready=new Promise(ok=>{un=au.onAuthStateChanged(x=>{cu=x;ok();un&&un()})});
+const db={doc:q=>{const r=fs.doc(q);return{set:o=>r.set(enc(o)),delete:()=>r.delete()}},
+ collection:n=>({onSnapshot:(cb,eb)=>fs.collection(n).onSnapshot(s=>cb({empty:s.empty,docChanges:()=>s.docChanges().map(c=>({type:c.type,doc:{id:c.doc.id,data:()=>dec(c.doc.data())}}))}),eb)})};
+window.claude={use:async n=>{await ready;if(n==="db")return db;if(n==="user")return{isOwner:async()=>!!cu,can:async()=>!!cu};return null}};
+addEventListener("DOMContentLoaded",()=>ready.then(()=>{const b=document.createElement("button");b.className="noprint fbpill";b.style.cssText="position:fixed;right:10px;bottom:72px;z-index:9999;padding:9px 14px;border-radius:20px;border:1px solid #888;background:#111;color:#fff;font:600 13px system-ui;opacity:.92";
+ b.textContent=cu?"Sair ("+(cu.email||"")+")":"Entrar para editar";
+ b.onclick=async()=>{try{if(cu)await au.signOut();else await au.signInWithPopup(new firebase.auth.GoogleAuthProvider());location.reload()}catch(e){alert("Não foi possível entrar: "+(e.code||e.message))}};
+ document.body.appendChild(b)}));
+})();</script>
 </head>
 <body>
 <div class="brand"><img id="brandlogo" alt="Locar"></div>
@@ -998,7 +1017,7 @@ const sEnc=p=>encodeURIComponent(String(p)).replace(/[!'()*]/g,c=>"%"+c.charCode
 const jv=v=>JSON.stringify(v===undefined?null:v);
 function syncFlat(){const m=new Map();for(const k of Object.keys(S)){if(SYNC.exclude[k])continue;const v=S[k];if(v&&typeof v==="object"&&!Array.isArray(v)){for(const p of Object.keys(v))m.set(sEnc(k)+"."+sEnc(p),{t:"o",k:k,p:p,v:v[p]})}else if(v!==undefined)m.set(sEnc(k),{t:"v",k:k,v:v})}return m}
 function setBanner(kind,extra){const b=$("syncb");if(!b)return;const hm=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
- const T={local:"💾 Modo individual: os dados ficam só neste aparelho (entre no Claude para compartilhar).",wait:"⏳ Aguardando o responsável abrir o link pela primeira vez para publicar os dados compartilhados.",ro:"👁️ Somente leitura: você vê tudo em tempo real e pode gerar imagem, mas não edita.",ok:"🟢 Compartilhado · salvo às "+hm(),saving:"🔄 Salvando…",sync:"🟢 Compartilhado · atualizado às "+hm(),noreset:"Somente o responsável pelo link pode restaurar o modelo inicial.",err:"⚠️ Não foi possível salvar agora"+(extra?" ("+extra+")":"")+". Tentando de novo…",quota:"⚠️ Limite de armazenamento do banco atingido."};
+ const T={local:"💾 Modo individual: os dados ficam só neste aparelho (entre com o Google para compartilhar).",wait:"⏳ Aguardando o responsável abrir o link pela primeira vez para publicar os dados compartilhados.",ro:"👁️ Somente leitura: você vê tudo em tempo real e pode gerar imagem, mas não edita.",ok:"🟢 Compartilhado · salvo às "+hm(),saving:"🔄 Salvando…",sync:"🟢 Compartilhado · atualizado às "+hm(),noreset:"Somente o responsável pelo link pode restaurar o modelo inicial.",err:"⚠️ Não foi possível salvar agora"+(extra?" ("+extra+")":"")+". Tentando de novo…",quota:"⚠️ Limite de armazenamento do banco atingido."};
  b.textContent=T[kind]||"";if(kind==="noreset")setTimeout(()=>setBanner(SYNC.ro?"ro":"ok"),4000)}
 function lockUI(){["pgInf","pgCen","pgPen"].forEach(id=>{const e=$(id);if(e)e.querySelectorAll("input,select,textarea,button").forEach(x=>{if(!x.closest(".ch"))x.disabled=true})});document.querySelectorAll(".tb button").forEach(b=>b.disabled=true)}
 function unlockUI(){["pgInf","pgCen","pgPen"].forEach(id=>{const e=$(id);if(e)e.querySelectorAll("input,select,textarea,button").forEach(x=>{x.disabled=false})});updUndo();document.querySelectorAll(".tb button").forEach(b=>{if(b.id!=="undo")b.disabled=false})}
@@ -1010,7 +1029,7 @@ async function syncFlush(){if(!SYNC.on||!SYNC.ready||SYNC.ro||SYNC.applying)retu
   for(const id of todo){const b=cur.get(id);await SYNC.db.doc("state/"+id).set(JSON.parse(JSON.stringify(b)));SYNC.last.set(id,jv(b.v))}
   for(const id of del){await SYNC.db.doc("state/"+id).delete();SYNC.last.delete(id)}
   if(todo.length||del.length)setBanner("ok");SYNC.fails=0}
- catch(e){const c=e&&e.code;if(c==="invalid_argument"||c==="revoked"||c==="not_granted"){SYNC.ro=true;setBanner("ro");lockUI()}else if(c==="quota_exceeded"){setBanner("quota")}else{SYNC.fails=(SYNC.fails||0)+1;setBanner("err",c);if(SYNC.fails<6)setTimeout(schedSync,2000*SYNC.fails)}}
+ catch(e){const c=e&&e.code;if(c==="invalid_argument"||c==="revoked"||c==="not_granted"||c==="permission-denied"){SYNC.ro=true;setBanner("ro");lockUI()}else if(c==="quota_exceeded"){setBanner("quota")}else{SYNC.fails=(SYNC.fails||0)+1;setBanner("err",c);if(SYNC.fails<6)setTimeout(schedSync,2000*SYNC.fails)}}
  SYNC.busy=false;if(SYNC.again){SYNC.again=false;schedSync()}}
 document.addEventListener("input",()=>{SYNC.li=Date.now()},true);
 function syncApplySoon(d){clearTimeout(SYNC.at);SYNC.at=setTimeout(syncApply,d==null?300:d)}
@@ -1040,7 +1059,7 @@ async function startSync(){
     if(snap.empty){if(SYNC.owner){SYNC.ready=true;setBanner("ok");syncFlush()}else{SYNC.ready=false;setBanner("wait");lockUI()}return}}
    chs.forEach(c=>SYNC.pending.push({type:c.type==="removed"?"del":"set",id:c.doc.id,b:c.doc.data()}));
    syncApplySoon(SYNC.ready?300:0)},
-   err=>{if(err&&(err.code==="revoked"||err.code==="not_granted")){SYNC.ro=true;setBanner("ro");lockUI()}else setBanner("err",err&&err.code)});
+   err=>{if(err&&(err.code==="revoked"||err.code==="not_granted"||err.code==="permission-denied")){SYNC.ro=true;setBanner("ro");lockUI()}else setBanner("err",err&&err.code)});
   if(SYNC.ro){setBanner("ro");lockUI()}
  }catch(e){console.error(e);setBanner("local")}}
 
