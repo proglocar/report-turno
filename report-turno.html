@@ -205,25 +205,6 @@ input[type=checkbox]{width:20px;height:20px;min-height:0;accent-color:#FFD21F;fl
 #pAdd{width:100%;min-height:48px}
 }
 </style>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<style>@media print{.fbpill{display:none!important}}</style>
-<script>(function(){
-if(!window.firebase)return;
-const FC={apiKey:"AIzaSyCkV6F2adUNJfOj_uBp8Y1LEVdAGlAHM2M",authDomain:"prontidaolocar.firebaseapp.com",projectId:"prontidaolocar",storageBucket:"prontidaolocar.firebasestorage.app",messagingSenderId:"498721436531",appId:"1:498721436531:web:3c47639ad88b1ba69bcb06"};
-try{if(!firebase.apps.length)firebase.initializeApp(FC)}catch(e){console.error("Firebase:",e);return}
-const fs=firebase.firestore(),au=firebase.auth();
-const enc=o=>Object.assign({},o,{v:o.v===undefined?null:JSON.stringify(o.v)}),dec=d=>Object.assign({},d,{v:typeof d.v==="string"?JSON.parse(d.v):d.v});
-let cu=null;
-const ready=new Promise((resolve,reject)=>{
- const stop=au.onAuthStateChanged(x=>{if(x){cu=x;stop();resolve(x)}});
- if(!au.currentUser)au.signInAnonymously().catch(e=>{stop();console.error("Falha no acesso automático ao Firebase:",e);reject(e)});
-});
-const db={doc:q=>{const r=fs.doc(q);return{set:o=>r.set(enc(o)),delete:()=>r.delete()}},
- collection:n=>({onSnapshot:(cb,eb)=>fs.collection(n).onSnapshot(s=>cb({empty:s.empty,docChanges:()=>s.docChanges().map(c=>({type:c.type,doc:{id:c.doc.id,data:()=>dec(c.doc.data())}}))}),eb)})};
-window.claude={use:async n=>{await ready;if(n==="db")return db;if(n==="user")return{isOwner:async()=>true,can:async()=>true};return null}};
-})();</script>
 </head>
 <body>
 <div class="brand"><img id="brandlogo" alt="Locar"></div>
@@ -613,7 +594,7 @@ function drawImg(cv,H,opt){const P=imgP(true);P.t1=P.t2=P.t3="#000";
   const areas=[...new Set(c.G.filter(x=>aOk(ck,x[0])).map(x=>x[0]))],multi=new Set(c.G.filter(x=>areaOk(ck,x[0])).map(x=>x[0])).size>1,SL=!!S.showLoc,SO=!!S.showOp,SOS=!!S.showOs;
   const K0=CC/1000,AV=1000-56-10,vr=[];c.G.forEach((x,gi)=>{if(hid(ck,ntp(x[1]))||!aOk(ck,x[0]))return;(S.g[ck][gi]||[]).forEach(r=>{if(r.on&&imgVis(ck,r))vr.push(r)})});if(!S.evNA)S.evt.forEach(r=>{if(r.ct===ck&&r.on!==0&&evOk(r)&&!hid(ck,ntp(r.eq)))vr.push(r)});
   const mz=(strs,z,wt)=>{try{ctx.letterSpacing="0px"}catch(e){}ctx.font=`${wt} ${z}px ${FN}`;let m=0;strs.forEach(t=>{m=Math.max(m,ctx.measureText(String(t||"—").toUpperCase()).width)});return m};
-  const spec=[["TAG",vr.map(r=>r.tag),900,0],["FROTA",vr.map(r=>r.frota),700,0],["LOCAL",vr.map(r=>r.posto||r.local),700,0]].concat(S.showLoc?[["LOCALIZAÇÃO",vr.map(r=>String(r.loc||"").slice(0,16)),700,28]]:[],SO?[["OPERADOR",vr.map(r=>r.operador),700,0]]:[],SOS?[["OM/OS",[].concat(...vr.map(r=>String(r.os||"—").split(" / "))),700,0]]:[]);
+  const spec=[["TAG",vr.map(r=>r.tag),900,0],["FROTA",vr.map(r=>r.frota),700,0],["LOCAL",vr.map(r=>r.posto||r.local),700,0]].concat(S.showLoc?[["LOCALIZAÇÃO",vr.map(r=>String(r.loc||"").slice(0,16)),700,28]]:[],SOS?[["OM/OS",[].concat(...vr.map(r=>String(r.os||"—").split(" / "))),700,0]]:[],SO?[["OPERADOR",vr.map(r=>r.operador),700,0]]:[]);
   const req=z=>spec.map(([h,v,wt,ex])=>Math.ceil((Math.max(mz(v,z,wt),mz([h],z,800))+12)/K0)+ex);
   let zc=BF;for(;zc>16;zc--){if(req(zc).reduce((a,b)=>a+b,0)<=AV)break}
   if(H===100)window.__gm=Math.min(window.__gm||24,zc);
@@ -622,11 +603,11 @@ function drawImg(cv,H,opt){const P=imgP(true);P.t1=P.t2=P.t3="#000";
   const byA={},common=[];let hasA=0,hasB=0;const ht=[];const isB=t=>/^(EMPILHADEIRA|ORMIG)/.test(ntp(t));
   c.G.map((x,gi)=>({x,gi})).sort((a,b)=>EQO(a.x[1])-EQO(b.x[1])).forEach(({x,gi})=>{
    if(hid(ck,ntp(x[1]))||!aOk(ck,x[0]))return;const l=S.g[ck][gi].filter(r=>r.on&&imgVis(ck,r)).sort(tagCmp);if(!l.length)return;isB(x[1])?hasB=1:hasA=1;if(!ht.includes(ntp(x[1])))ht.push(ntp(x[1]));const m=l.filter(r=>r.st==="man").length;
-   if(!(opt&&opt.mode==="ev")&&(!(opt&&opt.grp)||isB(x[1])===(opt.grp==="B"))&&(!(opt&&opt.tps)||opt.tps.includes(ntp(x[1]))))(byA[x[0]]=byA[x[0]]||[]).push(()=>tbl(multi?(ck==="PORTO"?"HABITUAL | "+ntp(x[1]):x[1]):x[0]+" | "+x[1],hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.posto].concat(SL?[String(r.loc||"").slice(0,16)]:[],SO?[r.operador]:[],SOS?[r.os]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))});
+   if(!(opt&&opt.mode==="ev")&&(!(opt&&opt.grp)||isB(x[1])===(opt.grp==="B"))&&(!(opt&&opt.tps)||opt.tps.includes(ntp(x[1]))))(byA[x[0]]=byA[x[0]]||[]).push(()=>tbl(multi?(ck==="PORTO"?"HABITUAL | "+ntp(x[1]):x[1]):x[0]+" | "+x[1],hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.posto].concat(SL?[String(r.loc||"").slice(0,16)]:[],SOS?[r.os]:[],SO?[r.operador]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))});
   const evR=S.evNA||(opt&&opt.mode!=="ev"&&opt.mode!=="both")?[]:S.evt.filter(r=>r.ct===ck&&evOk(r)&&!hid(ck,ntp(r.eq))&&(!opt||opt.area===undefined||evArea(c,r)===opt.area)),evM=evR.filter(r=>r.st==="man").length;
   {const eqs=[];evR.forEach(r=>{const n=ntp(r.eq)||"SEM EQUIPAMENTO";if(!eqs.includes(n))eqs.push(n)});
   eqs.sort((a,b)=>EQO(a)-EQO(b));eqs.filter(n=>!(opt&&opt.tps)||opt.tps.includes(n)).forEach(n=>{const l=evR.filter(r=>(ntp(r.eq)||"SEM EQUIPAMENTO")===n).sort((a,b)=>tagCmp(a,b)||String(a.frota||"").trim().localeCompare(String(b.frota||"").trim(),"pt-BR",{numeric:true})),m=l.filter(r=>r.st==="man").length;
-   common.push(()=>tbl("EVENTUAL | "+n,hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.local].concat(SL?[String(r.loc||"").slice(0,16)]:[],SO?[r.operador]:[],SOS?[r.os]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))})}
+   common.push(()=>tbl("EVENTUAL | "+n,hd,cs,l.map(r=>({dot:r.st==="man"?"#e53935":"#22c55e",w:SL?3:null,c:[r.tag,r.frota,r.local].concat(SL?[String(r.loc||"").slice(0,16)]:[],SOS?[r.os]:[],SO?[r.operador]:[]),sub:csub(r),obs:isC(r)?"":r.obs})),"",[["#22c55e",`${l.length-m} OPERACIONAL`],["#e53935",`${m} NÃO ATENDIMENTO`]]))})}
    const im=opt&&!opt.imp?[]:impactList(ck);
    if(im.length)common.push(()=>tbl("IMPACTOS",isPT()?["TIPO","FROTA","MOTIVO","STATUS","PREVISÃO","LIBERADO"]:["TIPO","FROTA","MOTIVO","STATUS","PREVISÃO"],isPT()?[[70,130],[200,100],[300,250],[550,200],[750,150],[900,90]]:[[70,150],[220,110],[330,270],[600,200],[800,190]],im.map(x=>({dot:x.tipo!=="MANUTENÇÃO"?"#eab308":"#e53935",c:[x.tipo,x.frota,x.motivo,x.status,x.com?x.hora:"SEM PREVISÃO"].concat(isPT()?[x.lib?"SIM":"NÃO"]:[]),w:2})),"",[["#e53935",`${im.filter(x=>x.tipo==="MANUTENÇÃO").length} MANUTENÇÃO`],["#eab308",`${im.filter(x=>x.tipo==="OPERACIONAL").length} OPERACIONAL`],["#eab308",`${im.filter(x=>x.tipo==="IMPACTO").length} IMPACTO`]],"#d32f2f"));
   M=M0;CW=CC;k=CC/1000;let y0=y;
@@ -1017,7 +998,7 @@ const sEnc=p=>encodeURIComponent(String(p)).replace(/[!'()*]/g,c=>"%"+c.charCode
 const jv=v=>JSON.stringify(v===undefined?null:v);
 function syncFlat(){const m=new Map();for(const k of Object.keys(S)){if(SYNC.exclude[k])continue;const v=S[k];if(v&&typeof v==="object"&&!Array.isArray(v)){for(const p of Object.keys(v))m.set(sEnc(k)+"."+sEnc(p),{t:"o",k:k,p:p,v:v[p]})}else if(v!==undefined)m.set(sEnc(k),{t:"v",k:k,v:v})}return m}
 function setBanner(kind,extra){const b=$("syncb");if(!b)return;const hm=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
- const T={local:"💾 Modo individual: os dados ficam só neste aparelho. Verifique a conexão para ativar o compartilhamento automático.",wait:"⏳ Preparando o primeiro acesso compartilhado...",ro:"👁️ Somente leitura: você vê tudo em tempo real e pode gerar imagem, mas não edita.",ok:"🟢 Compartilhado · salvo às "+hm(),saving:"🔄 Salvando…",sync:"🟢 Compartilhado · atualizado às "+hm(),noreset:"Somente o responsável pelo link pode restaurar o modelo inicial.",err:"⚠️ Não foi possível salvar agora"+(extra?" ("+extra+")":"")+". Tentando de novo…",quota:"⚠️ Limite de armazenamento do banco atingido."};
+ const T={local:"💾 Modo individual: os dados ficam só neste aparelho (entre no Claude para compartilhar).",wait:"⏳ Aguardando o responsável abrir o link pela primeira vez para publicar os dados compartilhados.",ro:"👁️ Somente leitura: você vê tudo em tempo real e pode gerar imagem, mas não edita.",ok:"🟢 Compartilhado · salvo às "+hm(),saving:"🔄 Salvando…",sync:"🟢 Compartilhado · atualizado às "+hm(),noreset:"Somente o responsável pelo link pode restaurar o modelo inicial.",err:"⚠️ Não foi possível salvar agora"+(extra?" ("+extra+")":"")+". Tentando de novo…",quota:"⚠️ Limite de armazenamento do banco atingido."};
  b.textContent=T[kind]||"";if(kind==="noreset")setTimeout(()=>setBanner(SYNC.ro?"ro":"ok"),4000)}
 function lockUI(){["pgInf","pgCen","pgPen"].forEach(id=>{const e=$(id);if(e)e.querySelectorAll("input,select,textarea,button").forEach(x=>{if(!x.closest(".ch"))x.disabled=true})});document.querySelectorAll(".tb button").forEach(b=>b.disabled=true)}
 function unlockUI(){["pgInf","pgCen","pgPen"].forEach(id=>{const e=$(id);if(e)e.querySelectorAll("input,select,textarea,button").forEach(x=>{x.disabled=false})});updUndo();document.querySelectorAll(".tb button").forEach(b=>{if(b.id!=="undo")b.disabled=false})}
@@ -1029,7 +1010,7 @@ async function syncFlush(){if(!SYNC.on||!SYNC.ready||SYNC.ro||SYNC.applying)retu
   for(const id of todo){const b=cur.get(id);await SYNC.db.doc("state/"+id).set(JSON.parse(JSON.stringify(b)));SYNC.last.set(id,jv(b.v))}
   for(const id of del){await SYNC.db.doc("state/"+id).delete();SYNC.last.delete(id)}
   if(todo.length||del.length)setBanner("ok");SYNC.fails=0}
- catch(e){const c=e&&e.code;if(c==="invalid_argument"||c==="revoked"||c==="not_granted"||c==="permission-denied"){SYNC.ro=true;setBanner("ro");lockUI()}else if(c==="quota_exceeded"){setBanner("quota")}else{SYNC.fails=(SYNC.fails||0)+1;setBanner("err",c);if(SYNC.fails<6)setTimeout(schedSync,2000*SYNC.fails)}}
+ catch(e){const c=e&&e.code;if(c==="invalid_argument"||c==="revoked"||c==="not_granted"){SYNC.ro=true;setBanner("ro");lockUI()}else if(c==="quota_exceeded"){setBanner("quota")}else{SYNC.fails=(SYNC.fails||0)+1;setBanner("err",c);if(SYNC.fails<6)setTimeout(schedSync,2000*SYNC.fails)}}
  SYNC.busy=false;if(SYNC.again){SYNC.again=false;schedSync()}}
 document.addEventListener("input",()=>{SYNC.li=Date.now()},true);
 function syncApplySoon(d){clearTimeout(SYNC.at);SYNC.at=setTimeout(syncApply,d==null?300:d)}
@@ -1059,7 +1040,7 @@ async function startSync(){
     if(snap.empty){if(SYNC.owner){SYNC.ready=true;setBanner("ok");syncFlush()}else{SYNC.ready=false;setBanner("wait");lockUI()}return}}
    chs.forEach(c=>SYNC.pending.push({type:c.type==="removed"?"del":"set",id:c.doc.id,b:c.doc.data()}));
    syncApplySoon(SYNC.ready?300:0)},
-   err=>{if(err&&(err.code==="revoked"||err.code==="not_granted"||err.code==="permission-denied")){SYNC.ro=true;setBanner("ro");lockUI()}else setBanner("err",err&&err.code)});
+   err=>{if(err&&(err.code==="revoked"||err.code==="not_granted")){SYNC.ro=true;setBanner("ro");lockUI()}else setBanner("err",err&&err.code)});
   if(SYNC.ro){setBanner("ro");lockUI()}
  }catch(e){console.error(e);setBanner("local")}}
 
