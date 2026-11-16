@@ -243,6 +243,7 @@ input[type=checkbox]{width:20px;height:20px;min-height:0;accent-color:#FFD21F;fl
 <div style="font-size:12px;color:var(--mu);margin-top:6px">Use ✕ para remover a linha quando a pendência for resolvida. Os dados ficam salvos e não são apagados em "Restaurar modelo inicial".</div></div>
 </div>
 <div class="card" id="imgCard"><h2>Gerar imagem</h2><div class="seg" id="imgTh"><button class="s-tg" id="thL">☀️ MODO CLARO</button><button class="s-tg" id="thD">🌙 MODO ESCURO</button></div><button class="pri" id="imgl" style="width:100%">🖼️ Gerar imagem</button>
+<button id="xlsB" style="width:100%;margin-top:8px;display:none">📊 Gerar Excel</button><div id="xlsM" style="display:none;font-size:12.5px;font-weight:700;margin-top:6px"></div>
 <img id="pimg" alt="Report" style="display:none;width:100%;border-radius:10px;margin-top:10px">
 <div id="ia" style="display:none;margin-top:8px"><div><label>Frase para enviar junto</label><div style="font-size:13px;font-weight:700;color:var(--ac);margin:2px 0 6px"><span class="ninf">Toque em 📋 Copiar frase. Depois escolha o formato, toque em Compartilhar, selecione o WhatsApp e cole a frase na mensagem antes de enviar.</span><span class="npt">Toque em 📋 Copiar frase, baixe o PDF e envie os dois no WhatsApp.</span></div><textarea id="cap" readonly rows="12" style="width:100%;text-transform:none"></textarea><div class="acts"><button class="pri" id="cpC">📋 Copiar frase</button></div></div>
 <div id="dzb" class="nopt" style="margin-top:10px"><label>🎯 Acompanhamento D-Zero (mensagem separada)</label><div id="dzs" style="font-size:13px;font-weight:700;margin:2px 0 6px"></div><textarea id="dz" readonly rows="14" style="width:100%;text-transform:none"></textarea><div class="acts"><button class="pri" id="cpD">📋 Copiar D-Zero</button></div></div>
@@ -1245,5 +1246,70 @@ bar.querySelectorAll("#pfch button").forEach(b=>b.onclick=()=>{F.c=b.dataset.c;b
 $("pfq").addEventListener("input",e=>{F.q=e.target.value.trim().toUpperCase();filt()});
 run();
 })();</script>
+<script>
+/* ===== Exportar Excel (.xlsx) — sem dependências ===== */
+(function(){
+const $=id=>document.getElementById(id);
+function crc32(u){let t=crc32.t;if(!t){t=crc32.t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}}let r=-1;for(let i=0;i<u.length;i++)r=t[(r^u[i])&255]^(r>>>8);return(r^-1)>>>0}
+function zip(files){const en=new TextEncoder(),parts=[],cd=[];let off=0;const d=new Date(),tm=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1),dt=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+ files.forEach(f=>{const nm=en.encode(f.name),data=en.encode(f.data),crc=crc32(data),sz=data.length;
+  const lh=new DataView(new ArrayBuffer(30));lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint16(10,tm,true);lh.setUint16(12,dt,true);lh.setUint32(14,crc,true);lh.setUint32(18,sz,true);lh.setUint32(22,sz,true);lh.setUint16(26,nm.length,true);
+  parts.push(new Uint8Array(lh.buffer),nm,data);
+  const ch=new DataView(new ArrayBuffer(46));ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);ch.setUint16(12,tm,true);ch.setUint16(14,dt,true);ch.setUint32(16,crc,true);ch.setUint32(20,sz,true);ch.setUint32(24,sz,true);ch.setUint16(28,nm.length,true);ch.setUint32(42,off,true);
+  cd.push(new Uint8Array(ch.buffer),nm);off+=30+nm.length+sz});
+ let cs=0;cd.forEach(x=>cs+=x.length);const e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+ return new Blob([...parts,...cd,new Uint8Array(e.buffer)],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})}
+const esc=v=>String(v==null?"":v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const L=i=>{let s="";i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26)}return s};
+const XH='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n',NS='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"';
+/* estilos: 0 padrão | 1 título | 2 subtítulo | 3 cabeçalho | 4 corpo | 5 verde | 6 vermelho | 7 amarelo */
+const STY=XH+'<styleSheet '+NS+'><fonts count="5"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFC20E"/><name val="Calibri"/></font><font><b/><sz val="14"/><name val="Calibri"/></font><font><i/><sz val="10"/><color rgb="FF6B7280"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>'
++'<fills count="6"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF14171C"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFC6EFCE"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFC7CE"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFEB9C"/><bgColor indexed="64"/></patternFill></fill></fills>'
++'<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FFBFC5CE"/></left><right style="thin"><color rgb="FFBFC5CE"/></right><top style="thin"><color rgb="FFBFC5CE"/></top><bottom style="thin"><color rgb="FFBFC5CE"/></bottom><diagonal/></border></borders>'
++'<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8">'
++'<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'
++'<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>'
++'<xf numFmtId="0" fontId="3" fillId="0" borderId="0" xfId="0" applyFont="1"/>'
++'<xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'
++'<xf numFmtId="49" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
++'<xf numFmtId="49" fontId="4" fillId="3" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="top" wrapText="1"/></xf>'
++'<xf numFmtId="49" fontId="4" fillId="4" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="top" wrapText="1"/></xf>'
++'<xf numFmtId="49" fontId="4" fillId="5" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="top" wrapText="1"/></xf>'
++'</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
+/* rows: array de arrays de {v,s} ou string */
+function xlsx(name,title,sub,heads,rows,widths){const n=heads.length,last=L(n-1),tot=rows.length+3;
+ const c=(r,i,v,s)=>'<c r="'+L(i)+r+'" s="'+s+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v)+'</t></is></c>';
+ let sd='<row r="1" ht="24" customHeight="1">'+c(1,0,title,1)+'</row><row r="2">'+c(2,0,sub,2)+'</row><row r="3" ht="30" customHeight="1">'+heads.map((h,i)=>c(3,i,h,3)).join("")+'</row>';
+ rows.forEach((r,ri)=>{sd+='<row r="'+(ri+4)+'">'+r.map((x,i)=>typeof x==="object"?c(ri+4,i,x.v,x.s):c(ri+4,i,x,4)).join("")+'</row>'});
+ const sh=XH+'<worksheet '+NS+'><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" showGridLines="0"><pane ySplit="3" topLeftCell="A4" activePane="bottomLeft" state="frozen"/><selection pane="bottomLeft"/></sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/><cols>'+widths.map((w,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>').join("")+'</cols><sheetData>'+sd+'</sheetData><autoFilter ref="A3:'+last+Math.max(tot,3)+'"/><mergeCells count="2"><mergeCell ref="A1:'+last+'1"/><mergeCell ref="A2:'+last+'2"/></mergeCells><pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="landscape" fitToWidth="1" fitToHeight="0"/></worksheet>';
+ const q="'"+name+"'";
+ return zip([
+  {name:"[Content_Types].xml",data:XH+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+  {name:"_rels/.rels",data:XH+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+  {name:"xl/workbook.xml",data:XH+'<workbook '+NS+' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="'+esc(name)+'" sheetId="1" r:id="rId1"/></sheets><definedNames><definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">'+esc(q)+'!$A$3:$'+last+'$'+Math.max(tot,3)+'</definedName></definedNames></workbook>'},
+  {name:"xl/_rels/workbook.xml.rels",data:XH+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+  {name:"xl/styles.xml",data:STY},
+  {name:"xl/worksheets/sheet1.xml",data:sh}])}
+window.__xlsx=xlsx;
+const U=v=>String(v==null?"":v).toUpperCase();
+const dstr=()=>{const v=($("data")||{}).value||"",m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);if(m)return{br:m[3]+"/"+m[2]+"/"+m[1],iso:v};const d=new Date(),p=n=>String(n).padStart(2,"0");return{br:p(d.getDate())+"/"+p(d.getMonth()+1)+"/"+d.getFullYear(),iso:d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())}};
+const stS=v=>v==="OPERACIONAL"||v==="RESOLVIDO"?5:v==="MANUTENÇÃO"||v==="AGUARDANDO"?6:4;
+function xCen(){const R=cenRows(),d=dstr(),q=R.map(cenEff);
+ const rows=R.map((r,k)=>{const i=r.i,E=q[k];return[U(r.e),U(r.f),U(i&&i.tag),U(i&&i.ct),U(i&&i.posto),U(i&&i.loc),E.sit,E.cp,{v:E.st,s:stS(E.st)},E.fv,U(E.ob)]});
+ const FM="cenario-dos-equipamentos"+(EQL.some(e=>S.cenF.eq[e])?"-"+EQL.filter(e=>S.cenF.eq[e]).map(e=>e.toLowerCase().normalize("NFD").replace(/[^a-z]/g,"")).join("-"):"");
+ return{blob:xlsx("Cenário","CENÁRIO DOS EQUIPAMENTOS · "+d.br,cenSub()+"  |  "+cenSum(),["EQUIPAMENTO","FROTA","TAG","CONTRATO","LOCAL","LOCALIZAÇÃO","SITUAÇÃO OPERACIONAL","CONTRAPESO","STATUS","FILIAL OU VALE","OBSERVAÇÃO"],rows,[16,12,12,13,16,20,16,12,15,13,40]),name:FM+"-"+d.iso+".xlsx",n:rows.length}}
+function xPen(){pendInit();const P=S.pend,d=dstr(),n=c=>P.filter(r=>r.crit===c).length;
+ const rows=P.map(r=>{const st=U(r.sts).replace(/[^A-ZÀ-Ú ]/g,"").trim(),cs=r.crit==="ALTO"?6:r.crit==="BAIXO"?5:7;
+  const ds=String(r.desc||"").split("\n").map(x=>x.trim()).filter(Boolean).map(x=>(x.startsWith("•")?"• "+x.replace(/^•\s*/,""):x)).join("\n");
+  return[U(r.eq),U(r.frota),U(r.ct),U(r.lc),U(ds),U(r.ss),{v:r.crit,s:cs},{v:st,s:stS(st)},U(r.obs)]});
+ return{blob:xlsx("Pendências","CONTROLE DE PENDÊNCIAS DOS EQUIPAMENTOS · "+d.br,P.length+" PENDÊNCIAS · "+n("ALTO")+" ALTO · "+n("MÉDIO")+" MÉDIO · "+n("BAIXO")+" BAIXO",["EQUIPAMENTO","FROTA","CONTRATO","LOCALIZAÇÃO","DESCRIÇÃO","S.S","CRITICIDADE","STATUS","OBSERVAÇÃO"],rows,[16,13,13,20,60,12,14,15,34]),name:"controle-de-pendencias-dos-equipamentos-"+d.iso+".xlsx",n:rows.length}}
+const msg=(t,bad)=>{const m=$("xlsM");m.style.display="block";m.style.color=bad?"var(--dg)":"var(--ac)";m.textContent=t};
+$("xlsB").onclick=()=>{try{const o=PG==="cen"?xCen():PG==="pen"?xPen():null;if(!o)return;
+ const u=URL.createObjectURL(o.blob),a=document.createElement("a");a.href=u;a.download=o.name;a.style.display="none";document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(u)},4000);
+ msg("Excel gerado: "+o.name+" ("+o.n+" linha(s))")}catch(e){msg("Não foi possível gerar o Excel: "+(e&&e.message||e),1)}};
+const tg=()=>{const on=PG==="cen"||PG==="pen";$("xlsB").style.display=on?"":"none";if(!on)$("xlsM").style.display="none"};
+{const _b=build;build=function(){_b();tg()}}tg();
+})();
+</script>
 </body>
 </html>
